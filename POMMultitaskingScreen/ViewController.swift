@@ -19,10 +19,10 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
 
-        let screenSize = UIScreen.mainScreen().bounds
+        let screenSize = UIScreen.main.bounds
 
         let screenshotsCollectionViewFlowLayout = screenshotsCollectionView.collectionViewLayout as! UICollectionViewFlowLayout
-        screenshotsCollectionViewFlowLayout.itemSize = CGSizeMake(screenSize.width / 2.0, screenSize.height / 2.0)
+        screenshotsCollectionViewFlowLayout.itemSize = CGSize(width: screenSize.width / 2.0, height: screenSize.height / 2.0)
         screenshotsCollectionViewFlowLayout.minimumInteritemSpacing = 0.0
         screenshotsCollectionViewFlowLayout.minimumLineSpacing = 20.0
         let screenshotsSectionInset = screenSize.width / 4.0
@@ -30,7 +30,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
 
         let iconsCollectionViewFlowLayout = iconsCollectionView.collectionViewLayout as! UICollectionViewFlowLayout
         let iconHeight = iconsCollectionView.frame.height - 20.0
-        iconsCollectionViewFlowLayout.itemSize = CGSizeMake(iconHeight, iconHeight)
+        iconsCollectionViewFlowLayout.itemSize = CGSize(width: iconHeight, height: iconHeight)
         iconsCollectionViewFlowLayout.minimumInteritemSpacing = 0.0
         iconsCollectionViewFlowLayout.minimumLineSpacing = 50.0
         let iconsSectionInset = screenshotsSectionInset + (screenshotsCollectionViewFlowLayout.itemSize.width - iconsCollectionViewFlowLayout.itemSize.width) / 2.0
@@ -42,29 +42,29 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         // Dispose of any resources that can be recreated.
     }
 
-    func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return POMAppCount
     }
     
-    func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         var cell: UICollectionViewCell
         
         if (collectionView == screenshotsCollectionView) {
-            cell = collectionView.dequeueReusableCellWithReuseIdentifier("ScreenshotCell", forIndexPath: indexPath) as! UICollectionViewCell
+            cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ScreenshotCell", for: indexPath) 
         }
         else {
-            cell = collectionView.dequeueReusableCellWithReuseIdentifier("IconCell", forIndexPath: indexPath) as! UICollectionViewCell
+            cell = collectionView.dequeueReusableCell(withReuseIdentifier: "IconCell", for: indexPath) 
             cell.layer.cornerRadius = 20.0
             cell.layer.masksToBounds = true
         }
         
-        var hue = CGFloat(indexPath.item) / CGFloat(POMAppCount)
+        let hue = CGFloat(indexPath.item) / CGFloat(POMAppCount)
         cell.backgroundColor = UIColor(hue: hue, saturation: 1, brightness: 1, alpha: 1)
         
         return cell
     }
     
-    func scrollViewDidScroll(scrollView: UIScrollView)
+    func scrollViewDidScroll(_ scrollView: UIScrollView)
     {
         let screenshotsCollectionViewFlowLayout = screenshotsCollectionView.collectionViewLayout as! UICollectionViewFlowLayout
         let iconsCollectionViewFlowLayout = iconsCollectionView.collectionViewLayout as! UICollectionViewFlowLayout
